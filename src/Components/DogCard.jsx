@@ -4,14 +4,15 @@ import { TrashButton } from "./TrashButton";
 import { UnfavoriteButton } from "./UnfavoriteButton";
 export const DogCard = ({
   dog: { name, image, description, id, isFavorite },
+  setCountFromChild,
 }) => {
   return (
     <div className="dog-card">
       {/* Choose which button to show depending on if dog is a favorite */}
       {isFavorite ? (
-        <UnfavoriteButton onClick={() => {}} />
+        <UnfavoriteButton onClick={() => {setCountFromChild(isFavorite, id)}} />
       ) : (
-        <FavoriteButton onClick={() => {}} />
+        <FavoriteButton onClick={() => {setCountFromChild(isFavorite, id)}} />
       )}
 
       {/* Use this button to delete a puppy :( */}
