@@ -15,8 +15,10 @@ export const DogCard = ({
         <FavoriteButton onClick={() => {setCountFromChild(isFavorite, id)}} />
       )}
 
-      {/* Use this button to delete a puppy :( */}
-      <TrashButton disabled={true} onClick={() => {}} />
+      {/* Use this button to delete a puppy :(*/}
+      <TrashButton disabled={true} onClick={() => {
+          // send the delete request
+      }} />
 
       {/* Ignore this  */}
       {/* You can temporarily set a favorite overlay after a user favoritest a dog */}

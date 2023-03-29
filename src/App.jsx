@@ -12,25 +12,32 @@ function App() {
     const [dogs, setDogs] = useState([]);
     const [count, setCount] = useState({});
     const [dogShowType, setdogShowType] = useState("all");
+    const [isAddDog, setIsAddDog] = useState(false);
+
     useEffect(() => {
-        fetch("http://localhost:3000/dogs")
-            .then((response) => response.json())
-            .then((data) => {
-                setDogs(data);
-                let INIT_favoriteDogCount = data.reduce(
+        const fetchDogs = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/dogs");
+                const dogs = await res.json();
+                setDogs(dogs);
+                const INIT_favoriteDogCount = dogs.reduce(
                     (acc, cur) => (cur.isFavorite ? ++acc : acc),
                     0
                 );
-                let INIT_unfavoriteDogCount =
-                    data.length - INIT_favoriteDogCount;
+                const INIT_unfavoriteDogCount =
+                    dogs.length - INIT_favoriteDogCount;
                 setCount({
                     favoriteDogCount: INIT_favoriteDogCount,
                     unfavoriteDogCount: INIT_unfavoriteDogCount,
                 });
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+            } catch (error) {
+                console.log(error);
+                alert(
+                    "something went wrong while fetching data. Please try again"
+                );
+            }
+        };
+        fetchDogs();
     }, []);
 
     function setCountFromChild(isFavorite, id) {
@@ -56,15 +63,28 @@ function App() {
     }
 
     function handleShow(type) {
-        setdogShowType(type);
+        switch (type) {
+            case "favorite":
+                setdogShowType("favorite");
+                break;
+            case "unfavorite":
+                setdogShowType("unfavorite");
+                break;
+            case "addDog":
+                setIsAddDog(!isAddDog);
+                break;
+            default:
+                break;
+        }
     }
-
     return (
-        count && (
-            <div className="App">
-                <header>
-                    <h1>pup-e-picker</h1>
-                </header>
+        <div className="App">
+            <header>
+                <h1>pup-e-picker</h1>
+            </header>
+            {isAddDog ? (
+                <CreateDogForm handleShow={handleShow} />
+            ) : (
                 <Section count={count} handleShow={handleShow} label={"Dogs: "}>
                     <Dogs
                         dogs={dogs}
@@ -72,10 +92,9 @@ function App() {
                         setCountFromChild={setCountFromChild}
                         label={"All Dogs"}
                     />
-                    {/* <CreateDogForm /> */}
                 </Section>
-            </div>
-        )
+            )}
+        </div>
     );
 }
 

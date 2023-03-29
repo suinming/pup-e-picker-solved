@@ -1,7 +1,11 @@
+import { useState } from "react";
+
 export const Section = ({ count, label, children, handleShow }) => {
-    // const favoriteDogCount = 1;
-    // const unfavoriteDogCount = 2;
-    // input another prop call count = {favoriteDogCount: xx, unfavoriteDogCount:xx}
+    const [isActive, setIsActive] = useState({
+        favorite: false,
+        unfavorite: false,
+        addDog: false,
+    });
     return (
         <section>
             <div className="container-header">
@@ -10,20 +14,52 @@ export const Section = ({ count, label, children, handleShow }) => {
                     {/* Add the class 'active' to any selector in order to make it's color change */}
                     {/* This should display the favorited count */}
                     <div
-                        className={`selector active`}
-                        onClick={() => handleShow("favorite")}
+                        className={`selector ${
+                            isActive.favorite ? "active" : ""
+                        }`}
+                        onClick={() => {
+                            handleShow("favorite");
+                            setIsActive({
+                                favorite: !isActive.favorite,
+                                unfavorite: false,
+                                addDog: false,
+                            });
+                        }}
                     >
                         favorited ( {count.favoriteDogCount} )
                     </div>
 
                     {/* This should display the unfavorited count */}
                     <div
-                        className={`selector`}
-                        onClick={() => handleShow("unfavorite")}
+                        className={`selector ${
+                            isActive.unfavorite ? "active" : ""
+                        }`}
+                        onClick={() => {
+                            handleShow("unfavorite");
+                            setIsActive({
+                                favorite: false,
+                                unfavorite: !isActive.unfavorite,
+                                addDog: false,
+                            });
+                        }}
                     >
                         unfavorited ( {count.unfavoriteDogCount} )
                     </div>
-                    <div className={`selector`}>create dog</div>
+                    <div
+                        className={`selector ${
+                            isActive.addDog ? "active" : ""
+                        }`}
+                        onClick={() => {
+                            handleShow("addDog");
+                            setIsActive({
+                                favorite: false,
+                                unfavorite: false,
+                                addDog: !isActive.addDog,
+                            });
+                        }}
+                    >
+                        create dog
+                    </div>
                 </div>
             </div>
             {children}
