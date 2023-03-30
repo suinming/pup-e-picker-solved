@@ -1,7 +1,10 @@
 import { DogCard } from "./DogCard";
-// input a props called action to filter the desired dog type
-//  all, isfavorite
-export const Dogs = ({ dogs, setCountFromChild, dogShowType }) => {
+export const Dogs = ({
+    dogs,
+    setCountFromChild,
+    setIsUpdateDogsFromChild,
+    dogShowType,
+}) => {
     let displayDogs;
     switch (dogShowType) {
         case "favorite":
@@ -19,6 +22,7 @@ export const Dogs = ({ dogs, setCountFromChild, dogShowType }) => {
             {displayDogs.map((dog) => (
                 <DogCard
                     setCountFromChild={setCountFromChild}
+                    setIsUpdateDogsFromChild={setIsUpdateDogsFromChild}
                     dog={dog}
                     key={dog.id}
                 />

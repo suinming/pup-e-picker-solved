@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { dogPictures } from "../assets/dog-pictures";
+import { postNewDog } from "../utils/utils.js";
 
-export const CreateDogForm = ({ handleShow }) => {
+export const CreateDogForm = ({
+    handleShow,
+    lastDogId,
+    setIsUpdateDogsFromChild,
+}) => {
     const [selectedImage, setSelectedImage] = useState(dogPictures.BlueHeeler);
     const [newDog, setNewDog] = useState({
         name: "",
@@ -13,9 +18,10 @@ export const CreateDogForm = ({ handleShow }) => {
             id="create-dog-form"
             onSubmit={(e) => {
                 e.preventDefault();
+                // post request
+                postNewDog(newDog, selectedImage, lastDogId);
                 handleShow("addDog");
-                // emit the post request
-                alert("you create a new dog !!!");
+                setIsUpdateDogsFromChild();
             }}
         >
             <h4>Create a New Dog</h4>
