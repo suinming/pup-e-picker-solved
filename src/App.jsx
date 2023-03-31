@@ -25,7 +25,7 @@ function App() {
             const dogs = await res.json();
             setDogs(dogs);
             const INIT_favoriteDogCount = dogs.reduce(
-                (acc, cur) => (cur.isFavorite ? ++acc : acc),
+                (acc, cur) => (cur.isFavorite ? acc += 1 : acc),
                 0
             );
             const INIT_unfavoriteDogCount = dogs.length - INIT_favoriteDogCount;
@@ -49,7 +49,6 @@ function App() {
         console.log("toggle the isUpdateDogs switch");
     }
 
-    // !! can do some code refinment at this function
     function setCountFromChild(isFavorite, id) {
         // update the dog isFavorite props by sending a patch request
         let targetDog = dogs.find((dog) => dog.id === id);
