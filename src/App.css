@@ -45,10 +45,12 @@
 
 #create-dog-form h4 {
   margin: 0px;
+  color: black;
 }
 
 #create-dog-form label {
   margin-top: 20px;
+  color: black;
 }
 #create-dog-form input[type="submit"] {
   margin-top: 20px;
