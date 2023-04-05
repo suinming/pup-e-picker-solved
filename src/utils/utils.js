@@ -8,22 +8,25 @@ export async function deleteDog(id) {
       toast.error("something went wrong while deleting the dog");
       throw new Error("something went wrong");
     }
-    toast.success("delete the dog");
   });
 }
 
-export async function postNewDog(newDog, selectedImage, lastDogId) {
-  const body = {
-    name: newDog.name,
-    image: selectedImage,
-    description: newDog.description,
-    isFavorite: false,
-    id: lastDogId + 1,
-  };
+export async function postNewDog(
+  newDogName,
+  description,
+  selectedImage,
+  lastDogId,
+) {
   return fetch("http://localhost:3000/dogs", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      name: newDogName,
+      image: selectedImage,
+      description: description,
+      isFavorite: false,
+      id: lastDogId + 1,
+    }),
   }).then((res) => {
     if (!res.ok) {
       toast.error("something went wrong while posting a new dog");
@@ -46,6 +49,5 @@ export async function patchDog(dog) {
       toast.error("something went wrong while patch a dog");
       throw new Error("something went wrong while patch a dog ");
     }
-    toast.success("change the status of a dog");
   });
 }

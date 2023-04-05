@@ -1,8 +1,8 @@
 import { DogCard } from "./DogCard";
 export const Dogs = ({
   dogs,
-  updateDogsFromChild,
-  setIsUpdateDogsFromChild,
+  updateDogs,
+  refetchDogs,
   dogShowType,
 }) => {
   let displayDogs;
@@ -21,8 +21,8 @@ export const Dogs = ({
     <>
       {displayDogs.map((dog) => (
         <DogCard
-          updateDogsFromChild={updateDogsFromChild}
-          setIsUpdateDogsFromChild={setIsUpdateDogsFromChild}
+          updateDogs={updateDogs}
+          refetchDogs={refetchDogs}
           dog={dog}
           key={dog.id}
         />

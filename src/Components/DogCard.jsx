@@ -4,8 +4,8 @@ import { TrashButton } from "./TrashButton";
 import { UnfavoriteButton } from "./UnfavoriteButton";
 export const DogCard = ({
   dog: { name, image, description, id, isFavorite },
-  updateDogsFromChild,
-  setIsUpdateDogsFromChild,
+  updateDogs,
+  refetchDogs,
 }) => {
   return (
     <div className="dog-card">
@@ -14,14 +14,14 @@ export const DogCard = ({
         ? (
           <UnfavoriteButton
             onClick={() => {
-              updateDogsFromChild(id);
+              updateDogs(id);
             }}
           />
         )
         : (
           <FavoriteButton
             onClick={() => {
-              updateDogsFromChild(id);
+              updateDogs(id);
             }}
           />
         )}
@@ -29,8 +29,7 @@ export const DogCard = ({
       {/* Use this button to delete a puppy :(*/}
       <TrashButton
         onClick={() => {
-          deleteDog(id)
-          setIsUpdateDogsFromChild();
+          deleteDog(id).then(() => refetchDogs())
         }}
       />
 

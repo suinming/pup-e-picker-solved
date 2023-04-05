@@ -13,31 +13,26 @@ function App() {
   const [dogs, setDogs] = useState([]);
   const favoriteDogs = dogs.filter((dog) => dog.isFavorite);
   const unFavoriteDogs = dogs.filter((dog) => !dog.isFavorite);
-  const [dogShowType, setdogShowType] = useState("all");
+  const [dogShowType, setDogShowType] = useState("all");
   const isAddDog = dogShowType === "addDog";
-  const [isUpdateDogs, setIsUpdateDogs] = useState(false);
 
-  function fetchDogs() {
-    fetch("http://localhost:3000/dogs", {
+  function refetchDogs() {
+    return fetch("http://localhost:3000/dogs", {
       header: { "Content-Type": "application/json" },
     }).then((res) => {
       if (!res.ok) {
-        toast.error("something went wrong while fetching all the dogs");
-        throw new Error("something went wrong while fetching all the dogs");
+        throw new Error("something went wrong");
       }
       return res.json();
-    }).then((res) => setDogs(res));
+    })
+      .then((json) => setDogs(json))
+      .catch((error) => {
+        console.error(error);
+        toast.error("something went wrong");
+      });
   }
 
-  useEffect(() => {
-    fetchDogs();
-  }, [isUpdateDogs]);
-
-  function setIsUpdateDogsFromChild() {
-    setIsUpdateDogs(!isUpdateDogs);
-  }
-
-  function updateDogsFromChild(id) {
+  function updateDogs(id) {
     const targetDog = dogs.find((dog) => dog.id === id);
     patchDog(targetDog);
     const updateDogs = dogs.map((dog) => {
@@ -50,16 +45,13 @@ function App() {
     setDogs(updateDogs);
   }
 
-  const handleShow = (type, state) => {
-    setdogShowType(type);
-    // if the state is true show the specific type of the dogs
-    // if the state is false show all the dogs
-    if (state) {
-      setdogShowType(type);
-    } else {
-      setdogShowType("all");
-    }
-  };
+  function handleShow(nextState) {
+    setDogShowType(nextState);
+  }
+
+  useEffect(() => {
+    refetchDogs();
+  }, []);
 
   return (
     <div className="App">
@@ -70,7 +62,7 @@ function App() {
         ? (
           <CreateDogForm
             handleShow={handleShow}
-            setIsUpdateDogsFromChild={setIsUpdateDogsFromChild}
+            refetchDogs={refetchDogs}
             lastDogId={dogs[dogs.length - 1].id}
           />
         )
@@ -84,8 +76,8 @@ function App() {
             <Dogs
               dogs={dogs}
               dogShowType={dogShowType}
-              updateDogsFromChild={updateDogsFromChild}
-              setIsUpdateDogsFromChild={setIsUpdateDogsFromChild}
+              updateDogs={updateDogs}
+              refetchDogs={refetchDogs}
               label={"All Dogs"}
             />
           </Section>

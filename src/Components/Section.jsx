@@ -23,7 +23,11 @@ export const Section = (
                 unfavorite: false,
                 addDog: false,
               });
-              handleShow("favorite", !isActive.favorite);
+              if(isActive.favorite){
+                handleShow("all")
+              } else{
+                handleShow("favorite")
+              }
             }}
           >
             favorited ( {favoriteDogs.length} )
@@ -38,7 +42,11 @@ export const Section = (
                 unfavorite: !isActive.unfavorite,
                 addDog: false,
               });
-              handleShow("unfavorite", !isActive.unfavorite);
+              if(isActive.unfavorite){
+                handleShow("all")
+              } else{
+                handleShow("unfavorite")
+              }
             }}
           >
             unfavorited ( {unFavoriteDogs.length} )
@@ -51,7 +59,11 @@ export const Section = (
                 unfavorite: false,
                 addDog: !isActive.addDog,
               });
-              handleShow("addDog", !isActive.addDog);
+              if(isActive.addDog){
+                handleShow("all")
+              } else{
+                handleShow("addDog")
+              }
             }}
           >
             create dog
