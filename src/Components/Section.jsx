@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const Section = (
-  { favoriteDogs, unFavoriteDogs, label, children, handleShow },
+  { favoriteDogs, unFavoriteDogs, label, children, setDogShowType},
 ) => {
   const [isActive, setIsActive] = useState({
     favorite: false,
@@ -23,10 +23,10 @@ export const Section = (
                 unfavorite: false,
                 addDog: false,
               });
-              if(isActive.favorite){
-                handleShow("all")
-              } else{
-                handleShow("favorite")
+              if (isActive.favorite) {
+                setDogShowType("all");
+              } else {
+                setDogShowType("favorite");
               }
             }}
           >
@@ -42,10 +42,10 @@ export const Section = (
                 unfavorite: !isActive.unfavorite,
                 addDog: false,
               });
-              if(isActive.unfavorite){
-                handleShow("all")
-              } else{
-                handleShow("unfavorite")
+              if (isActive.unfavorite) {
+                setDogShowType("all");
+              } else {
+                setDogShowType("unfavorite");
               }
             }}
           >
@@ -59,10 +59,10 @@ export const Section = (
                 unfavorite: false,
                 addDog: !isActive.addDog,
               });
-              if(isActive.addDog){
-                handleShow("all")
-              } else{
-                handleShow("addDog")
+              if (isActive.addDog) {
+                setDogShowType("all");
+              } else {
+                setDogShowType("addDog");
               }
             }}
           >

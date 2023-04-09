@@ -2,34 +2,21 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "./fonts/RubikBubbles-Regular.ttf";
 import { CreateDogForm, Dogs, Section } from "./Components";
-import { patchDog } from "./utils/utils.js";
+import { getAllDogs, patchDog } from "./fetch-call/utils.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
   const [dogs, setDogs] = useState([]);
   const favoriteDogs = dogs.filter((dog) => dog.isFavorite);
   const unFavoriteDogs = dogs.filter((dog) => !dog.isFavorite);
   const [dogShowType, setDogShowType] = useState("all");
   const isAddDog = dogShowType === "addDog";
 
-  function refetchDogs() {
-    return fetch("http://localhost:3000/dogs", {
-      header: { "Content-Type": "application/json" },
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error("something went wrong");
-      }
-      return res.json();
-    })
-      .then((json) => setDogs(json))
-      .catch((error) => {
-        console.error(error);
-        toast.error("something went wrong");
-      });
+  async function refetchDogs() {
+    return getAllDogs().then((res) => setDogs(res)).catch((error) =>
+      toast.error(error.message)
+    );
   }
 
   function updateDogs(id) {
@@ -45,10 +32,6 @@ function App() {
     setDogs(updateDogs);
   }
 
-  function handleShow(nextState) {
-    setDogShowType(nextState);
-  }
-
   useEffect(() => {
     refetchDogs();
   }, []);
@@ -61,7 +44,7 @@ function App() {
       {isAddDog
         ? (
           <CreateDogForm
-            handleShow={handleShow}
+            setDogShowType = {setDogShowType}
             refetchDogs={refetchDogs}
             lastDogId={dogs[dogs.length - 1].id}
           />
@@ -70,7 +53,7 @@ function App() {
           <Section
             favoriteDogs={favoriteDogs}
             unFavoriteDogs={unFavoriteDogs}
-            handleShow={handleShow}
+            setDogShowType = {setDogShowType}
             label={"Dogs: "}
           >
             <Dogs

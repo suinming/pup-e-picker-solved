@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { dogPictures } from "../assets/dog-pictures";
-import { postNewDog } from "../utils/utils.js";
+import { postNewDog } from "../fetch-call/utils.js";
+import { toast } from "react-toastify";
 
 export const CreateDogForm = ({
-  handleShow,
+  setDogShowType,
   lastDogId,
   refetchDogs,
 }) => {
@@ -16,8 +17,11 @@ export const CreateDogForm = ({
       id="create-dog-form"
       onSubmit={(e) => {
         e.preventDefault();
-        postNewDog(newDogName, description, selectedImage, lastDogId).then(() =>
-          handleShow("all")
+        postNewDog(newDogName, description, selectedImage, lastDogId).then(
+          () => {
+            setDogShowType("all");
+            toast.success("post a new dog");
+          },
         ).then(() => refetchDogs());
       }}
     >

@@ -1,7 +1,8 @@
-import { deleteDog } from "../utils/utils.js";
+import { deleteDog } from "../fetch-call/utils.js";
 import { FavoriteButton } from "./FavoriteButton";
 import { TrashButton } from "./TrashButton";
 import { UnfavoriteButton } from "./UnfavoriteButton";
+import { toast } from "react-toastify";
 export const DogCard = ({
   dog: { name, image, description, id, isFavorite },
   updateDogs,
@@ -29,7 +30,7 @@ export const DogCard = ({
       {/* Use this button to delete a puppy :(*/}
       <TrashButton
         onClick={() => {
-          deleteDog(id).then(() => refetchDogs())
+          deleteDog(id).then(() => refetchDogs()).catch((error) => toast.error(error.message))
         }}
       />
 

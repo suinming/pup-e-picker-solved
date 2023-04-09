@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "serve": "json-server --watch db.json",
+    "serve": "json-server --watch db.json --full",
     "seed": "node reseed-db.js",
     "build": "vite build",
     "preview": "vite preview"
